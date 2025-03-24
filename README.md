@@ -3,6 +3,8 @@
 ## WearOS clock app
 
 ![screenshot1](./sshot1.png)
+![screenshot2](./sshot2.png)
+![screenshot3](./sshot3.png)
 
 ### Features
 
