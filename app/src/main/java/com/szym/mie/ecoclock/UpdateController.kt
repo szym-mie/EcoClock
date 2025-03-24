@@ -10,15 +10,13 @@ class UpdateController(val view: Atom<View>, val mainDelay: Long) {
     private var mainHandler: Handler? = null
     private var mainHandlerRunnable: Runnable? = null
     private var attachedActivity: ComponentActivity? = null
-    private var inAmbient = false
+    var inAmbient = false
 
     init {
         mainHandlerRunnable = Runnable {
-            if (!inAmbient) {
-                mainHandler?.let {
-                    view.update()
-                    it.postDelayed(mainHandlerRunnable!!, mainDelay)
-                }
+            mainHandler?.let {
+                view.update()
+                if (!inAmbient) it.postDelayed(mainHandlerRunnable!!, mainDelay)
             }
         }
     }

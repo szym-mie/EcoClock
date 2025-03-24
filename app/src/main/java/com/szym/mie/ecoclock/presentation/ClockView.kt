@@ -4,10 +4,15 @@ import android.content.Context
 import android.graphics.Canvas
 import android.view.View
 import com.szym.mie.ecoclock.Atom
+import com.szym.mie.ecoclock.UpdateController
+import com.szym.mie.ecoclock.Viewport
 import com.szym.mie.ecoclock.components.BatteryComponent
 import com.szym.mie.ecoclock.components.TimeComponent
 
 class ClockView(context: Context) : View(context), Atom<View> {
+    // start update controller at 1000ms interval and attach it
+    val updateController = UpdateController(this, 1000)
+    private val viewport = Viewport(null)
     private val timeComponent = TimeComponent()
     private val batteryComponent = BatteryComponent(context)
 
@@ -40,7 +45,9 @@ class ClockView(context: Context) : View(context), Atom<View> {
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
-        canvas.also {
+        viewport.canvas = canvas
+        viewport.inAmbient = updateController.inAmbient
+        viewport.also {
             batteryComponent.render(it, batteryComponentPosition)
             timeComponent.render(it, timeComponentPosition)
         }
